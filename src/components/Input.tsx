@@ -1,4 +1,3 @@
-import Attach from '../images/attach.png'
 import Img from '../images/img.png'
 type Props = {}
 const Input = (props: Props) => {
@@ -9,14 +8,18 @@ const Input = (props: Props) => {
         type='text'
         placeholder='Type something...'
       />
-      <div className='flex items-center justify-between'>
-        <img className='h-6' src={Img} alt='image' />
+      <div className='flex items-center justify-between gap-2'>
         <label htmlFor='file'>
-          <img src={Attach} alt='attach' />
+          <img className='w-12' src={Img} alt='attach' />
         </label>
         <input type='file' style={{ display: 'none' }} id='file' />
 
-        <button type='button'>Send</button>
+        <button
+          className='border-none py-1 px-2 text-white bg-primary-400'
+          type='button'
+        >
+          Send
+        </button>
       </div>
     </div>
   )

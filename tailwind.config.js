@@ -8,6 +8,7 @@ module.exports = {
         'primary-50': '#dce4ff',
         'primary-200': '#8696cc',
         'primary-300': '#7b96ec',
+        'primary-400': '#8da4f1',
         'primary-500': '#6f87d4',
         'second-100': '#5d5b8d',
         'dark-purple-100': '#3e3c61',

@@ -1,12 +1,81 @@
 import addAvatar from '../images/addAvatar.png'
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { auth, storage, db } from '../firebase'
+import { useState } from 'react'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { doc, setDoc } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
-type Props = {
-  isMember: boolean
-  setIsMember: (value: boolean) => void
-}
+const Register = () => {
+  const [err, setErr] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [isMember, setIsMember] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const handleRegister = async (e: any) => {
+    e.preventDefault()
+    const displayName: string = e.target[0].value
+    const email: string = e.target[1].value
+    const password: string = e.target[2].value
+    const file: ArrayBuffer = e.target[3].files[0]
 
-const Register = ({ isMember, setIsMember }: Props) => {
-  const inputConfig =
+    try {
+      //Create user
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+
+      //Create a unique image name
+      const date = new Date().getTime()
+      const storageRef = ref(storage, `${displayName + date}`)
+
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            })
+            //create user on firestore
+            await setDoc(doc(db, 'users', res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            })
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, 'userChats', res.user.uid), {})
+            navigate('/')
+          } catch (err) {
+            console.log(err)
+            setErr(true)
+            setLoading(false)
+          }
+        })
+      })
+    } catch (err) {
+      setErr(true)
+      setLoading(false)
+    }
+  }
+  const handleLogin = async (e: any) => {
+    e.preventDefault()
+    const email: string = e.target[0].value
+    const password: string = e.target[1].value
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      navigate('/')
+    } catch (error) {
+      console.log(err)
+      setErr(true)
+      setLoading(false)
+    }
+  }
+
+  const inputConfig: string =
     'p-3.5 border-b-2 border-primary-100 placeholder:text-slate-2300 w-80'
   return (
     <div className='bg-primary-100 h-screen flex justify-center items-center'>
@@ -15,7 +84,10 @@ const Register = ({ isMember, setIsMember }: Props) => {
         <span className='text-second-100 text-sm'>
           {isMember ? 'Log In' : 'Register'}
         </span>
-        <form className='flex flex-col gap-4 '>
+        <form
+          className='flex flex-col gap-4 '
+          onSubmit={isMember ? handleLogin : handleRegister}
+        >
           {!isMember && (
             <input className={inputConfig} type='text' placeholder='name' />
           )}
@@ -49,6 +121,7 @@ const Register = ({ isMember, setIsMember }: Props) => {
           >
             {isMember ? 'Log In' : 'Sign Up'}
           </button>
+          {err && <span>Something went wrong</span>}
         </form>
         <p className='text-second-100 mt-4 text-sm'>
           {isMember
@@ -61,7 +134,6 @@ const Register = ({ isMember, setIsMember }: Props) => {
             {isMember ? 'Register' : 'Log In'}
           </button>
         </p>
-        <button></button>
       </div>
     </div>
   )
