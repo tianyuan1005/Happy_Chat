@@ -13,7 +13,7 @@ const Chat = ({ isToggled, setIsToggled }: Props) => {
   const isAboveSmallScreen = useMediaQuery('(min-width:768px)')
 
   return (
-    <div className={`${isAboveSmallScreen} && 'basis-2/3'`}>
+    <div className={`${isToggled && 'hidden'}`}>
       <div className='h-20 bg-second-100 flex items-center justify-between p-2 text-gray-300'>
         <span>Jane</span>
         <div className='flex gap-2'>

@@ -20,7 +20,7 @@ const Sidebar = ({ isToggled, setIsToggled }: Props) => {
         </div>
       )}
       {!isAboveSmallScreen && isToggled && (
-        <div className='bg-dark-purple-100 basis-full h-full z-10 relative'>
+        <div className='bg-dark-purple-100   h-full z-10 relative basis-full'>
           <Navbar isToggled={isToggled} setIsToggled={setIsToggled} />
           <Search />
           <Chats />
