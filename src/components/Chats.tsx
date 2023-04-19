@@ -27,7 +27,7 @@ const Chats = ({ isToggled, setIsToggled }: Props) => {
 
   const handleSelect = (user: User) => {
     dispatch({ type: 'CHANGE_USER', payload: user })
-    setIsToggled()
+    setIsToggled(false)
   }
   return (
     <div>
