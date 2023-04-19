@@ -1,9 +1,10 @@
 import Cam from '../images/cam.png'
-import Add from '../images/add.png'
 import More from '../images/more.png'
 import Messages from './Messages'
 import Input from './Input'
 import useMediaQuery from '../hooks/useMediaQuery'
+import { ChatContext } from '../context/ChatContext'
+import { useContext } from 'react'
 
 type Props = {
   isToggled: boolean
@@ -11,11 +12,16 @@ type Props = {
 }
 const Chat = ({ isToggled, setIsToggled }: Props) => {
   const isAboveSmallScreen = useMediaQuery('(min-width:768px)')
+  const { state } = useContext(ChatContext)
 
   return (
-    <div className={`${isToggled && 'hidden'}`}>
+    <div
+      className={`${isToggled && 'hidden'} ${
+        isAboveSmallScreen ? 'basis-2/3' : 'basis-full'
+      }`}
+    >
       <div className='h-20 bg-second-100 flex items-center justify-between p-2 text-gray-300'>
-        <span>Jane</span>
+        <span>{state.user?.displayName}</span>
         <div className='flex gap-2'>
           <img className='cursor-pointer' src={Cam} alt='camera-icon' />
           {!isAboveSmallScreen && (

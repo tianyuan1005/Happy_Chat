@@ -15,15 +15,15 @@ const Sidebar = ({ isToggled, setIsToggled }: Props) => {
       {isAboveSmallScreen && (
         <div className='bg-dark-purple-100 basis-1/3 relative'>
           <Navbar isToggled={isToggled} setIsToggled={setIsToggled} />
-          <Search />
-          <Chats />
+          <Search isToggled={isToggled} setIsToggled={setIsToggled} />
+          <Chats isToggled={isToggled} setIsToggled={setIsToggled} />
         </div>
       )}
       {!isAboveSmallScreen && isToggled && (
-        <div className='bg-dark-purple-100   h-full z-10 relative basis-full'>
+        <div className='bg-dark-purple-100 h-full z-10 relative basis-full'>
           <Navbar isToggled={isToggled} setIsToggled={setIsToggled} />
-          <Search />
-          <Chats />
+          <Search isToggled={isToggled} setIsToggled={setIsToggled} />
+          <Chats isToggled={isToggled} setIsToggled={setIsToggled} />
         </div>
       )}
     </>

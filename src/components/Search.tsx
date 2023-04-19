@@ -12,11 +12,13 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
-import { StorageError } from 'firebase/storage'
 import { AuthContext } from '../context/AuthContext'
 
-type Props = {}
-const Search = (props: Props) => {
+type Props = {
+  isToggled: boolean
+  setIsToggled: (value: boolean) => void
+}
+const Search = ({isToggled,setIsToggled}: Props) => {
   const currentUser = useContext(AuthContext)
   const id = currentUser !== null && currentUser.uid
   const [userName, setUserName] = useState<string>('')

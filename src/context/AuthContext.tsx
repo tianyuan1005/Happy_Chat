@@ -8,7 +8,7 @@ interface childrenProp {
 
 export const AuthContext = createContext<User | null>({} as User)
 
-export const AuthContextProvider: React.FC = ({ children }: childrenProp) => {
+export const AuthContextProvider = ({ children }: childrenProp) => {
   const [currentUser, setCurrentUser] = useState<User | null>({} as User)
 
   useEffect(() => {
