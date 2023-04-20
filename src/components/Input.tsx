@@ -31,13 +31,13 @@ const Input = (props: Props) => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
             await updateDoc(doc(db, 'charts', state.chatId), {
-              messages: arrayUnion({
+              messages: arrayUnion(`{
                 id: uuid(),
-                text,
+                ${text && text},
                 senderId: currentUser?.uid,
                 date: Timestamp.now(),
                 img: downloadURL,
-              }),
+              }`),
             })
           } catch (err) {
             setErr(true)

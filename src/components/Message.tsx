@@ -2,7 +2,7 @@ import { DocumentData } from 'firebase/firestore'
 import { useContext, useEffect, useRef } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { ChatContext } from '../context/ChatContext'
-import { User } from 'firebase/Auth'
+import { User } from 'firebase/auth'
 
 type Props = {
   message: DocumentData
@@ -23,7 +23,7 @@ const Message = ({ message }: Props) => {
       ref={ref}
       className={`${
         message.senderId === currentUser?.uid && 'flex-row-reverse'
-      } flex gap-5 mb-5 flex-row-reverse`}
+      } flex gap-5 mb-5`}
     >
       <div className='flex flex-col text-gray-400 font-light mb-3'>
         <img
