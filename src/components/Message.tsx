@@ -36,15 +36,18 @@ const Message = ({ message }: Props) => {
         <span>just now</span>
       </div>
       <div className='max-w-[80%] flex flex-col gap-2'>
-        <p
-          className={`${
-            message.senderId === currentUser?.uid
-              ? 'bg-primary-400 text-white rounded-tl-lg'
-              : 'bg-white rounded-tr-lg'
-          } py-2.5 px-5 rounded-b-lg  max-w-max`}
-        >
-          {message.text}
-        </p>
+        {message.text && (
+          <p
+            className={`${
+              message.senderId === currentUser?.uid
+                ? 'bg-primary-400 text-white rounded-tl-lg'
+                : 'bg-white rounded-tr-lg'
+            } py-2.5 px-5 rounded-b-lg  max-w-max`}
+          >
+            {message.text}
+          </p>
+        )}
+
         {message.img && (
           <img src={message.img} alt='message-pic' className='w-1/2' />
         )}

@@ -33,7 +33,7 @@ const Input = (props: Props) => {
             await updateDoc(doc(db, 'charts', state.chatId), {
               messages: arrayUnion(`{
                 id: uuid(),
-                ${text && text},
+                text,
                 senderId: currentUser?.uid,
                 date: Timestamp.now(),
                 img: downloadURL,
