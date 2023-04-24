@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { doc, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import defaultPhoto from '../images/defaultPhoto.jpg'
 
 const Register = () => {
   const [err, setErr] = useState<boolean>(false)
@@ -21,14 +22,13 @@ const Register = () => {
     const email: string = e.target[1].value
     const password: string = e.target[2].value
     const file: ArrayBuffer = e.target[3].files[0]
-
     try {
       //Create user
       const res = await createUserWithEmailAndPassword(auth, email, password)
 
       //Create a unique image name
       const date = new Date().getTime()
-      const storageRef = ref(storage, `${displayName + date}`)
+      let storageRef = ref(storage, `${displayName + date}`)
 
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
@@ -36,14 +36,14 @@ const Register = () => {
             //Update profile
             await updateProfile(res.user, {
               displayName,
-              photoURL: downloadURL,
+              photoURL: file === undefined ? defaultPhoto : downloadURL,
             })
             //create user on firestore
             await setDoc(doc(db, 'users', res.user.uid), {
               uid: res.user.uid,
               displayName,
               email,
-              photoURL: downloadURL,
+              photoURL: file === undefined ? defaultPhoto : downloadURL,
             })
 
             //create empty user chats on firestore

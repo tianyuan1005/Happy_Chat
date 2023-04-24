@@ -31,7 +31,7 @@ const Navbar = ({ isToggled, setIsToggled }: Props) => {
         />
         <span>{displayName}</span>
         <button
-          className='bg-second-100 text-lg text-light-white-100 cursor-pointer absolute bottom-2.5 left-4'
+          className='bg-second-100 text-lg text-light-white-100 cursor-pointer absolute bottom-2.5 left-4 rounded-md px-2 py-1'
           onClick={() => signOut(auth)}
         >
           Logout
